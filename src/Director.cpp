@@ -3,8 +3,6 @@
 #include <Helios/Debug/DevTools.hpp>
 #include <Helios/Debug/Instrumentation.hpp>
 
-#include <GLFW/glfw3.h>
-
 #include <utility>
 
 namespace Helios {
@@ -48,11 +46,15 @@ namespace Helios {
 
     void Director::requestRender() noexcept {
         m_renderRequested.store(true, std::memory_order_release);
-        glfwPostEmptyEvent();
+        if (m_wakeupCallback) m_wakeupCallback();
     }
 
     bool Director::consumeRenderRequest() noexcept {
         return m_renderRequested.exchange(false, std::memory_order_acq_rel);
+    }
+
+    void Director::setWakeupCallback(void(* callback)()) noexcept {
+        m_wakeupCallback = callback;
     }
 
     void Director::update(float dt) {

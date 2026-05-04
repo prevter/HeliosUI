@@ -38,6 +38,7 @@ namespace Helios {
 
         void requestRender() noexcept;
         [[nodiscard]] bool consumeRenderRequest() noexcept;
+        void setWakeupCallback(void(*callback)()) noexcept;
 
         void update(float dt);
         void render();
@@ -95,6 +96,7 @@ namespace Helios {
         Scheduler m_scheduler;
 
         std::vector<WidgetPtr> m_widgets;
+        void(*m_wakeupCallback)() = nullptr;
         std::atomic_bool m_renderRequested{true};
     };
 }
