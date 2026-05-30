@@ -4,7 +4,6 @@
 #include <Helios/Debug/Log.hpp>
 
 #include <utility>
-#include <GL/gl.h>
 
 #ifndef GL_LUMINANCE
     #define GL_LUMINANCE 0x1903
